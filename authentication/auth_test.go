@@ -7,6 +7,7 @@ import (
 	"testing"
 )
 
+type MockAuthClient struct {}
 func TestNewAuthClient(t *testing.T) {
 	cases := [] struct{
 		clientId string
