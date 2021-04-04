@@ -2,10 +2,12 @@ package reloadly
 
 import (
 	"encoding/json"
+	error2 "github.com/Ghvstcode/reloadly/error"
 	"net/http"
 	"strconv"
 )
 
+//Transaction represents a single Transaction made!
 type Transaction struct {
 	TransactionID               int         `json:"transactionId"`
 	OperatorTransactionID       interface{} `json:"operatorTransactionId"`
@@ -18,7 +20,7 @@ type Transaction struct {
 	OperatorName                string      `json:"operatorName"`
 	Discount                    float64     `json:"discount"`
 	DiscountCurrencyCode        string      `json:"discountCurrencyCode"`
-	RequestedAmount             int         `json:"requestedAmount"`
+	RequestedAmount             interface{}         `json:"requestedAmount"`
 	RequestedAmountCurrencyCode string      `json:"requestedAmountCurrencyCode"`
 	DeliveredAmount             float64     `json:"deliveredAmount"`
 	DeliveredAmountCurrencyCode string      `json:"deliveredAmountCurrencyCode"`
@@ -27,6 +29,7 @@ type Transaction struct {
 	BalanceInfo                 interface{} `json:"balanceInfo"`
 }
 
+//Transactions Is the list of all transactions made using Reloadly
 type Transactions struct {
 	Content []Transaction `json:"content"`
 	Pageable struct {
@@ -56,6 +59,11 @@ type Transactions struct {
 	Empty            bool `json:"empty"`
 }
 
+//GetTransactions is used to retrieve a list of all past transactions.
+//Just like all systems, We also keep a record of all transactions so that our users can track their activity in their respective dashboards.
+//Apart from doing just that we also provide a neat way to integrate transactions into your own systems.
+//You can get a complete list of your past top-up transactions by calling the GetTransactions function. Internally, it makes a GET request to the /topups/reports/transactions Endpoint.
+//This will provide you with a paginated result with all your recent transactions and the ability to paginate to further previous transactions.
 func (c *Client)GetTransactions(filter ...Filters)(*Transactions, error){
 	o := &FilterOptions{}
 	for _, opt := range filter {
@@ -89,17 +97,17 @@ func (c *Client)GetTransactions(filter ...Filters)(*Transactions, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r Transactions
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -107,17 +115,18 @@ func (c *Client)GetTransactions(filter ...Filters)(*Transactions, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
 }
 
-func (c *Client)GetTransactionsByID(Id int)(*Transactions, error){
+//GetTransactionsByID fetches a specific transaction By it's ID
+func (c *Client)GetTransactionsByID(Id int)(*Transaction, error){
 	method := "GET"
 	client := c.HttpClient
 
-	requestUrl := c.BaseURL + "/topups/reports/transactions" + strconv.Itoa(Id)
+	requestUrl := c.BaseURL + "/topups/reports/transactions/" + strconv.Itoa(Id)
 	req, _ := http.NewRequest(method, requestUrl, nil)
 
 	req.Header.Add("Authorization", c.AuthHeader)
@@ -125,17 +134,17 @@ func (c *Client)GetTransactionsByID(Id int)(*Transactions, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
-	var r Transactions
+	var e error2.ErrorResponse
+	var r Transaction
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -143,7 +152,7 @@ func (c *Client)GetTransactionsByID(Id int)(*Transactions, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil

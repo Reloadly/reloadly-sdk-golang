@@ -1,56 +1,59 @@
 package reloadly
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	error2 "github.com/Ghvstcode/reloadly/error"
 	"net/http"
 	"strconv"
 )
 
+type Operator struct {
+	ID                        int         `json:"id"`
+	OperatorID                int         `json:"operatorId"`
+	Name                      string      `json:"name"`
+	Bundle                    bool        `json:"bundle"`
+	Data                      bool        `json:"data"`
+	Pin                       bool        `json:"pin"`
+	SupportsLocalAmounts      bool        `json:"supportsLocalAmounts"`
+	DenominationType          string      `json:"denominationType"`
+	SenderCurrencyCode        string      `json:"senderCurrencyCode"`
+	SenderCurrencySymbol      string      `json:"senderCurrencySymbol"`
+	DestinationCurrencyCode   string      `json:"destinationCurrencyCode"`
+	DestinationCurrencySymbol string      `json:"destinationCurrencySymbol"`
+	Commission                float64     `json:"commission"`
+	InternationalDiscount     float64     `json:"internationalDiscount"`
+	LocalDiscount             float64     `json:"localDiscount"`
+	MostPopularAmount         float64     `json:"mostPopularAmount"`
+	MostPopularLocalAmount    interface{} `json:"mostPopularLocalAmount"`
+	MinAmount                 interface{} `json:"minAmount"`
+	MaxAmount                 interface{} `json:"maxAmount"`
+	LocalMinAmount            interface{} `json:"localMinAmount"`
+	LocalMaxAmount            interface{} `json:"localMaxAmount"`
+	Country                   struct {
+		IsoName string `json:"isoName"`
+		Name    string `json:"name"`
+	} `json:"country"`
+	Fx struct {
+		Rate         interface{}    `json:"rate"`
+		CurrencyCode string `json:"currencyCode"`
+	} `json:"fx"`
+	LogoUrls                 []string  `json:"logoUrls"`
+	FixedAmounts             []float64 `json:"fixedAmounts"`
+	FixedAmountsDescriptions struct {
+	} `json:"fixedAmountsDescriptions"`
+	LocalFixedAmounts             []interface{} `json:"localFixedAmounts"`
+	LocalFixedAmountsDescriptions struct {
+	} `json:"localFixedAmountsDescriptions"`
+	SuggestedAmounts    []interface{} `json:"suggestedAmounts"`
+	SuggestedAmountsMap struct {
+	} `json:"suggestedAmountsMap"`
+	Promotions []interface{} `json:"promotions"`
+}
 type Operators struct {
-	Content []struct {
-		ID                        int         `json:"id"`
-		OperatorID                int         `json:"operatorId"`
-		Name                      string      `json:"name"`
-		Bundle                    bool        `json:"bundle"`
-		Data                      bool        `json:"data"`
-		Pin                       bool        `json:"pin"`
-		SupportsLocalAmounts      bool        `json:"supportsLocalAmounts"`
-		DenominationType          string      `json:"denominationType"`
-		SenderCurrencyCode        string      `json:"senderCurrencyCode"`
-		SenderCurrencySymbol      string      `json:"senderCurrencySymbol"`
-		DestinationCurrencyCode   string      `json:"destinationCurrencyCode"`
-		DestinationCurrencySymbol string      `json:"destinationCurrencySymbol"`
-		Commission                float64     `json:"commission"`
-		InternationalDiscount     float64     `json:"internationalDiscount"`
-		LocalDiscount             float64     `json:"localDiscount"`
-		MostPopularAmount         float64     `json:"mostPopularAmount"`
-		MostPopularLocalAmount    interface{} `json:"mostPopularLocalAmount"`
-		MinAmount                 interface{} `json:"minAmount"`
-		MaxAmount                 interface{} `json:"maxAmount"`
-		LocalMinAmount            interface{} `json:"localMinAmount"`
-		LocalMaxAmount            interface{} `json:"localMaxAmount"`
-		Country                   struct {
-			IsoName string `json:"isoName"`
-			Name    string `json:"name"`
-		} `json:"country"`
-		Fx struct {
-			Rate         int    `json:"rate"`
-			CurrencyCode string `json:"currencyCode"`
-		} `json:"fx"`
-		LogoUrls                 []string  `json:"logoUrls"`
-		FixedAmounts             []float64 `json:"fixedAmounts"`
-		FixedAmountsDescriptions struct {
-		} `json:"fixedAmountsDescriptions"`
-		LocalFixedAmounts             []interface{} `json:"localFixedAmounts"`
-		LocalFixedAmountsDescriptions struct {
-		} `json:"localFixedAmountsDescriptions"`
-		SuggestedAmounts    []interface{} `json:"suggestedAmounts"`
-		SuggestedAmountsMap struct {
-		} `json:"suggestedAmountsMap"`
-		Promotions []interface{} `json:"promotions"`
-	} `json:"content"`
+	Content []Operator `json:"content"`
 	Pageable struct {
 		Sort struct {
 			Sorted   bool `json:"sorted"`
@@ -77,7 +80,12 @@ type Operators struct {
 	Number           int  `json:"number"`
 	Empty            bool `json:"empty"`
 }
-
+type OperatorFXRate struct {
+	ID           int    `json:"id"`
+	Name         string `json:"name"`
+	FxRate       int    `json:"fxRate"`
+	CurrencyCode string `json:"currencyCode"`
+}
 type OperatorOpts struct{
 	PageSize int
 	PageNumber int
@@ -173,17 +181,17 @@ func (c *Client) GetOperators(options ...OperatorOptions)(*Operators,error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r Operators
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -191,7 +199,7 @@ func (c *Client) GetOperators(options ...OperatorOptions)(*Operators,error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
@@ -215,17 +223,17 @@ func (c *Client) GetOperatorsById(operatorID int, options ...OperatorOptions)(*O
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r Operators
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -233,7 +241,7 @@ func (c *Client) GetOperatorsById(operatorID int, options ...OperatorOptions)(*O
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
@@ -273,17 +281,17 @@ func (c *Client) GetOperatorsByISO(ISO string, options ...OperatorOptions)(*Oper
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r Operators
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -291,13 +299,14 @@ func (c *Client) GetOperatorsByISO(ISO string, options ...OperatorOptions)(*Oper
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
 }
 
-func (c *Client) GetOperatorsByPhone(phone, countryCode string, options ...OperatorOptions)(*Operators,error){
+//GetOperatorsByPhone is the Auto-Detect Option! Reloadly also provide a simple way for its API's users to automatically detect the operator for any given number. This can be done by making a simple GET request to the /operators/auto-detect/phone/{phone}/countries/{iso} Endpoint. We will need to append the phone number with or without the country code and the Country's ISO in the path and the Reloadly platform will automatically find the operator for this number and send you complete details of that operator. Read the Operator's Endpoint Documentation for more details on this.
+func (c *Client) GetOperatorsByPhone(phone, countryCode string, options ...OperatorOptions)(*Operator,error){
 	o := &OperatorOpts{}
 	for _, opt := range options {
 		opt(o)
@@ -319,17 +328,17 @@ func (c *Client) GetOperatorsByPhone(phone, countryCode string, options ...Opera
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
-	var r Operators
+	var e error2.ErrorResponse
+	var r Operator
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -337,8 +346,52 @@ func (c *Client) GetOperatorsByPhone(phone, countryCode string, options ...Opera
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
+	return &r, nil
+}
+
+//GetFXRate is used to calculate the right amount to send and to estimate what amount will be received on the reciever end!So as an example, If you account is in US Dollar and you are trying to send to a nigerian Operator you can quickly make a Post call to the endpoint and send the operator's Id with the Amount in Canadian Dollar to calculate what amount you will receive in Nigerian Naira
+func (c *Client) GetFXRate(operatorId, amount int)(*OperatorFXRate,error){
+	method := "POST"
+
+	p := map[string]string{
+		"operatorId": strconv.Itoa(operatorId),
+		"amount": strconv.Itoa(amount),
+	}
+
+	data, _ := json.Marshal(p)
+
+	requestUrl := c.BaseURL + "/operators/fx-rate"
+
+	client := c.HttpClient
+	req, _ := http.NewRequest(method, requestUrl, bytes.NewBuffer(data))
+
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", c.AuthHeader)
+
+	res, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
+
+	var e error2.ErrorResponse
+	var r OperatorFXRate
+	if res.StatusCode  != http.StatusOK {
+		err := json.NewDecoder(res.Body).Decode(&e)
+		if err != nil {
+			return nil, err
+		}
+		return nil, &e
+
+	}
+
+	err = json.NewDecoder(res.Body).Decode(&r)
+	if err != nil {
+		return nil, err
+	}
 	return &r, nil
 }

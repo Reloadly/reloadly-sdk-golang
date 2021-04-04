@@ -2,6 +2,7 @@ package reloadly
 
 import (
 	"encoding/json"
+	error2 "github.com/Ghvstcode/reloadly/error"
 	"net/http"
 )
 type Country struct {
@@ -29,17 +30,17 @@ func (c *Client) GetCountries()(*Countries, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r Countries
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -47,7 +48,7 @@ func (c *Client) GetCountries()(*Countries, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
@@ -64,17 +65,17 @@ func (c *Client) GetCountriesByIso(ISO string)(*Country, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r Country
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -82,7 +83,7 @@ func (c *Client) GetCountriesByIso(ISO string)(*Country, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil

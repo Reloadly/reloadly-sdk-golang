@@ -2,10 +2,12 @@ package reloadly
 
 import (
 	"encoding/json"
+	error2 "github.com/Ghvstcode/reloadly/error"
 	"net/http"
 	"strconv"
 )
 
+//Promotion is a struct representing a single Promotion.
 type Promotion struct {
 	ID                 int         `json:"id"`
 	PromotionID        int         `json:"promotionId"`
@@ -19,6 +21,7 @@ type Promotion struct {
 	LocalDenominations interface{} `json:"localDenominations"`
 }
 
+//Promotions is a struct that represents a list of Promotions
 type Promotions struct {
 	Content []Promotion`json:"content"`
 	Pageable struct {
@@ -48,7 +51,7 @@ type Promotions struct {
 	Empty            bool `json:"empty"`
 }
 
-
+//GetPromotions Is used to list all available promotions. Reloady is also supported for enabling operator's promotions. These are provided by the Operators and can be activated by sending a specific topup amount as per the details of the promotion. Reloadly provide neat ways to get all details on the promotion and to showcase these to your customers.
 func (c *Client)GetPromotions(filter ...Filters)(*Promotions, error){
 	o := &FilterOptions{}
 	for _, opt := range filter {
@@ -82,17 +85,17 @@ func (c *Client)GetPromotions(filter ...Filters)(*Promotions, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r Promotions
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -100,17 +103,18 @@ func (c *Client)GetPromotions(filter ...Filters)(*Promotions, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
 }
 
+//GetPromotionsByID Fetches a Promotion with the specified ID
 func (c *Client)GetPromotionsById(Id int)(*Promotion, error){
 	method := "GET"
 	client := c.HttpClient
 
-	requestUrl := c.BaseURL + "/promotions" + strconv.Itoa(Id)
+	requestUrl := c.BaseURL + "/promotions/" + strconv.Itoa(Id)
 	req, _ := http.NewRequest(method, requestUrl, nil)
 
 	req.Header.Add("Authorization", c.AuthHeader)
@@ -118,17 +122,17 @@ func (c *Client)GetPromotionsById(Id int)(*Promotion, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r Promotion
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -136,17 +140,18 @@ func (c *Client)GetPromotionsById(Id int)(*Promotion, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
 }
 
-func (c *Client)GetPromotionsByOperatorId(OperatorId int)(*Promotion, error){
+//GetPromotionsByOperatorId  fetches all the Promotions for the operator id
+func (c *Client)GetPromotionsByOperatorId(OperatorId int)(*[]Promotion, error){
 	method := "GET"
 	client := c.HttpClient
 
-	requestUrl := c.BaseURL + "/promotions" + strconv.Itoa(OperatorId)
+	requestUrl := c.BaseURL + "/promotions/operators/" + strconv.Itoa(OperatorId)
 	req, _ := http.NewRequest(method, requestUrl, nil)
 
 	req.Header.Add("Authorization", c.AuthHeader)
@@ -154,17 +159,17 @@ func (c *Client)GetPromotionsByOperatorId(OperatorId int)(*Promotion, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
-	var r Promotion
+	var e error2.ErrorResponse
+	var r []Promotion
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -172,17 +177,18 @@ func (c *Client)GetPromotionsByOperatorId(OperatorId int)(*Promotion, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
 }
 
-func (c *Client)GetPromotionsByCode(CountryCode string)(*Promotion, error){
+//GetPromotionsByCountryCode fetches all the Promotions for the associated country(code)
+func (c *Client)GetPromotionsByCountryCode(CountryCode string)(*[]Promotion, error){
 	method := "GET"
 	client := c.HttpClient
 
-	requestUrl := c.BaseURL + "/promotions" + CountryCode
+	requestUrl := c.BaseURL + "/promotions/country-codes/" + CountryCode
 	req, _ := http.NewRequest(method, requestUrl, nil)
 
 	req.Header.Add("Authorization", c.AuthHeader)
@@ -190,17 +196,17 @@ func (c *Client)GetPromotionsByCode(CountryCode string)(*Promotion, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
-	var r Promotion
+	var e error2.ErrorResponse
+	var r []Promotion
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -208,7 +214,7 @@ func (c *Client)GetPromotionsByCode(CountryCode string)(*Promotion, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil

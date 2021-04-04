@@ -1,7 +1,7 @@
-package reloadly
+package Err
 
-//ErrorResponse is the default error response for twilio API's
-type Error struct {
+//ErrorResponse is the default error response for Reloadlys API's
+type ErrorResponse struct {
 	TimeStamp string        `json:"timeStamp"`
 	Message   string        `json:"message"`
 	Path      string        `json:"path"`
@@ -11,26 +11,26 @@ type Error struct {
 }
 
 //Implements Golang's error interface.
-func (e *Error) Error() string{
+func (e *ErrorResponse) Error() string{
 	return e.Message
 }
 //GetErrorCode Gets the Error Code
-func (e *Error) GetErrorCode() string{
+func (e *ErrorResponse) GetErrorCode() string{
 	return e.ErrorCode
 }
 //GetErrorInfo Fetches InfoLink about the Error
-func (e *Error) GetErrorInfo() interface{}{
+func (e *ErrorResponse) GetErrorInfo() interface{}{
 	return e.InfoLink
 }
 //GetErrorDetails Returns Details about the Error!
-func (e *Error) GetErrorDetails() []interface{}{
+func (e *ErrorResponse) GetErrorDetails() []interface{}{
 	return e.Details
 }
 //GetErrorDetails Returns the Errors Timestamp!
-func (e *Error) GetErrorTimeStamp() string{
+func (e *ErrorResponse) GetErrorTimeStamp() string{
 	return e.TimeStamp
 }
 //GetErrorPath Returns the Errors Path
-func (e *Error) GetErrorPath() string{
+func (e *ErrorResponse) GetErrorPath() string{
 	return e.Path
 }

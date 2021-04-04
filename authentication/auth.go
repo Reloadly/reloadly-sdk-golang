@@ -1,11 +1,11 @@
 package authentication
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
+	error2 "github.com/Ghvstcode/reloadly/error"
 	"net/http"
-	"net/url"
-	"strings"
 )
 
 type AuthClient struct {
@@ -44,20 +44,23 @@ func NewAuthClient(clientId, clientSecret string, sandbox bool)(*AuthClient, err
 //GetAccessToken returns an AccessResponse struct which contains the AccessToken and related information which can be used for making authenticated requests
 func (a *AuthClient) GetAccessToken()(*AccessResponse,error){
 	method := "POST"
+
 	environment := "https://topups-sandbox.reloadly.com"
 	if !a.SandBox{
 		environment = "https://topups.reloadly.com"
 	}
-	Data := url.Values{}
-	Data.Set("client_id",a.ClientID)
-	Data.Set("client_secret",a.ClientSecret)
-	Data.Set("grant_type","client_credentials")
-	Data.Set("audience",environment)
-	DataReader := strings.NewReader(Data.Encode())
+
+	p := map[string]string{
+		"client_id": a.ClientID,
+		"client_secret": a.ClientSecret,
+		"grant_type": "client_credentials",
+		"audience": environment,
+	}
+
+	data, _ := json.Marshal(p)
 
 	client := a.HttpClient
-	req, _ := http.NewRequest(method, a.URL, DataReader)
-
+	req, _ := http.NewRequest(method, a.URL, bytes.NewBuffer(data))
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := client.Do(req)
@@ -67,14 +70,14 @@ func (a *AuthClient) GetAccessToken()(*AccessResponse,error){
 
 	defer res.Body.Close()
 
-	var e error
+	var e error2.ErrorResponse
 	var ar AccessResponse
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
 			return nil, err
 		}
-		return nil, e
+		return nil, &e
 
 	}
 
@@ -82,7 +85,6 @@ func (a *AuthClient) GetAccessToken()(*AccessResponse,error){
 	if err != nil {
 		return nil, err
 	}
-
 	return &ar, nil
 }
 

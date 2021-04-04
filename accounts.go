@@ -2,6 +2,7 @@ package reloadly
 
 import (
 	"encoding/json"
+	error2 "github.com/Ghvstcode/reloadly/error"
 	"net/http"
 )
 
@@ -24,17 +25,17 @@ func (c *Client) GetBalance()(*AccountBalance, error){
 	res, err := client.Do(req)
 
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	defer res.Body.Close()
 
-	var e Error
+	var e error2.ErrorResponse
 	var r AccountBalance
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
-			return nil, &Error{Message: err.Error()}
+			return nil, &error2.ErrorResponse{Message: err.Error()}
 		}
 		return nil, &e
 
@@ -42,7 +43,7 @@ func (c *Client) GetBalance()(*AccountBalance, error){
 
 	err = json.NewDecoder(res.Body).Decode(&r)
 	if err != nil {
-		return nil, &Error{Message: err.Error()}
+		return nil, &error2.ErrorResponse{Message: err.Error()}
 	}
 
 	return &r, nil
