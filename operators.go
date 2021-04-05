@@ -10,6 +10,7 @@ import (
 	"strconv"
 )
 
+//Operator represents a single Operator
 type Operator struct {
 	ID                        int         `json:"id"`
 	OperatorID                int         `json:"operatorId"`
@@ -52,6 +53,8 @@ type Operator struct {
 	} `json:"suggestedAmountsMap"`
 	Promotions []interface{} `json:"promotions"`
 }
+
+//Operators struct represents list of Operators returned by Relaodly
 type Operators struct {
 	Content []Operator `json:"content"`
 	Pageable struct {
@@ -80,12 +83,16 @@ type Operators struct {
 	Number           int  `json:"number"`
 	Empty            bool `json:"empty"`
 }
+
+//OperatorFXRate represents FXRate returned by the Reloadly API
 type OperatorFXRate struct {
 	ID           int    `json:"id"`
 	Name         string `json:"name"`
 	FxRate       int    `json:"fxRate"`
 	CurrencyCode string `json:"currencyCode"`
 }
+
+//OperatorOpts struct represents the various possible optional parameters
 type OperatorOpts struct{
 	PageSize int
 	PageNumber int
@@ -97,56 +104,68 @@ type OperatorOpts struct{
 	IncludeBundles bool
 }
 
+//OperatorOptions is the Operator Option function type
 type OperatorOptions func(opts *OperatorOpts)
 
+//AddPageSize - Specify Page Size
 func AddPageSize(PageSize int) OperatorOptions {
 	return func(s *OperatorOpts) {
 		s.PageSize = PageSize
 	}
 }
 
+//AddPageNumber - Specify PAge Number
 func AddPageNumber(PageNumber int) OperatorOptions {
 	return func(s *OperatorOpts) {
 		s.PageNumber = PageNumber
 	}
 }
 
+//AddSuggestedAmounts - Whether to return the suggestedAmounts field on the Operator resource.
 func AddSuggestedAmounts(suggestedAmounts bool) OperatorOptions {
 	return func(s *OperatorOpts) {
 		s.SuggestedAmounts = suggestedAmounts
 	}
 }
 
+//AddSuggestedAmountsMap - Whether to return the suggestedAmountsMap field on the Operator resource.
 func AddSuggestedAmountsMap(suggestedAmountsMap bool) OperatorOptions {
 	return func(s *OperatorOpts) {
 		s.SuggestedAmountsMap = suggestedAmountsMap
 	}
 }
 
+//AddSimplified - Whether to return Simplified response or Detailed one.
 func AddSimplified(simplified bool) OperatorOptions {
 	return func(s *OperatorOpts) {
 		s.Simplified = simplified
 	}
 }
 
+//AddPin - Whether to include PIN details in the operators resources list.
 func AddPin(includePin bool) OperatorOptions {
 	return func(s *OperatorOpts) {
 		s.IncludePin = includePin
 	}
 }
 
+//AddData - Whether to include airtime/data bundles in the operators resources list.
 func AddData(includeData bool) OperatorOptions {
 	return func(s *OperatorOpts) {
 		s.IncludeData = includeData
 	}
 }
 
+//AddBundles - Whether to include airtime/data bundles in the operators resources list.
 func AddBundles(includeBundles bool) OperatorOptions {
 	return func(s *OperatorOpts) {
 		s.IncludeBundles = includeBundles
 	}
 }
 
+//GetOperators retrieves a complete list of all operators.You can set the number of operators to retrieve in each page by simply tweaking the size parameter. Reloadly returns complete detail of each operator so you don't need to make multiple calls, Including what type of operator this is, what topup types it support and even details on the commissions for the operator.
+//
+//Within the reloadly platform, There exist two types of Operators. One that support Range values (Anything between the minnimun and maximum range). While the other that support Fixed values (Only a cetain values are supported). Reloadly will return you the type of the operator within the response in denominationType variable. If this is set to RANGE you will receive the minimum and maximum values in the minAmount and maxAmount variables for that operator. However if the denomination type is FIXED you will not get these values but rather get an array of all values supported in the fixedAmounts variable. Now a point to remember here is that these values are already converted into your account's currency.
 func (c *Client) GetOperators(options ...OperatorOptions)(*Operators,error){
 	o := &OperatorOpts{}
 	for _, opt := range options {
@@ -205,6 +224,7 @@ func (c *Client) GetOperators(options ...OperatorOptions)(*Operators,error){
 	return &r, nil
 }
 
+//GetOperatorsById retrieves a specific Operator with the specified ID
 func (c *Client) GetOperatorsById(operatorID int, options ...OperatorOptions)(*Operators,error){
 	o := &OperatorOpts{}
 	for _, opt := range options {
@@ -247,6 +267,7 @@ func (c *Client) GetOperatorsById(operatorID int, options ...OperatorOptions)(*O
 	return &r, nil
 }
 
+//GetOperatorsByISO Retrieves a specified Operator by ISO code
 func (c *Client) GetOperatorsByISO(ISO string, options ...OperatorOptions)(*Operators,error){
 	o := &OperatorOpts{}
 	for _, opt := range options {

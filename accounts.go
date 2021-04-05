@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+//AccountBalance struct represents the account balance response.
 type AccountBalance struct {
 	Balance      float64 `json:"balance"`
 	CurrencyCode string  `json:"currencyCode"`
@@ -13,6 +14,7 @@ type AccountBalance struct {
 	UpdatedAt    string  `json:"updatedAt"`
 }
 
+//GetBalance is used to list account available balance
 func (c *Client) GetBalance()(*AccountBalance, error){
 	method := "GET"
 	client := c.HttpClient

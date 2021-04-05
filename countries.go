@@ -5,6 +5,8 @@ import (
 	error2 "github.com/Ghvstcode/reloadly/error"
 	"net/http"
 )
+
+//Country struct represents a Country response from the Reloadly API.
 type Country struct {
 	IsoName        string   `json:"isoName"`
 	Name           string   `json:"name"`
@@ -14,12 +16,9 @@ type Country struct {
 	Flag           string   `json:"flag"`
 	CallingCodes   []string `json:"callingCodes"`
 }
-type Countries []struct {
-	Country Country
-}
 
-
-func (c *Client) GetCountries()(*Countries, error){
+//GetCountries is used to retrieve a list of countries the Reloadly API supports
+func (c *Client) GetCountries()(*[]Country, error){
 	method := "GET"
 	client := c.HttpClient
 
@@ -36,7 +35,7 @@ func (c *Client) GetCountries()(*Countries, error){
 	defer res.Body.Close()
 
 	var e error2.ErrorResponse
-	var r Countries
+	var r []Country
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
@@ -54,6 +53,7 @@ func (c *Client) GetCountries()(*Countries, error){
 	return &r, nil
 }
 
+//GetCountriesByIso is used to retreive a specific country with the corresponding IDO code
 func (c *Client) GetCountriesByIso(ISO string)(*Country, error){
 	method := "GET"
 	client := c.HttpClient

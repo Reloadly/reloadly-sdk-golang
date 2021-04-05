@@ -52,7 +52,7 @@ type Discount struct {
 }
 
 
-
+//GetDiscounts Retrieves all available discounts
 func (c *Client)GetDiscounts(filter ...Filters)(*Discounts, error){
 	o := &FilterOptions{}
 	for _, opt := range filter {
@@ -110,6 +110,7 @@ func (c *Client)GetDiscounts(filter ...Filters)(*Discounts, error){
 	return &r, nil
 }
 
+//GetDiscountsByOperatorID is used to retrieve a specific Discount associated with an Operator
 func (c *Client)GetDiscountsByOperatorID(OperatorID string)(*Discounts, error){
 	method := "GET"
 	client := c.HttpClient
