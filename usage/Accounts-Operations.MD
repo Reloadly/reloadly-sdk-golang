@@ -4,28 +4,24 @@ Use the account operations to perform account related actions
 
 ## Retrieve account balance info
 
-```java
-AirtimeAPI airtimeAPI = AirtimeAPI.builder()
-        .clientId(clientId)
-        .clientSecret(clientSecret)
-        .environment(Environment.SANDBOX)
-        .build();
+```golang
+package main
 
-Request<AccountBalanceInfo> request;
-try {
-    request = airtimeAPI.accounts().getBalance();
-} catch (ReloadlyException e) {
-    // api error retrieving access_token
-}
+import (
+	"fmt"
+	"github.com/Reloadly/reloadly"
+)
 
-AccountBalanceInfo accountBalanceInfo = null;
-try {
-    accountBalanceInfo = request.execute();
-} catch (APIException e) {
-    // api error
-} catch (ReloadlyException e) {
-    // request error
-} catch (Exception e) {
-    // all others
-}  
+func main (){
+	c, err := reloadly.NewClient("Nxcccccc9", "c7gxxxxxx", true)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	f, err := c.GetBalance()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(f.Balance)
+} 
 ```
