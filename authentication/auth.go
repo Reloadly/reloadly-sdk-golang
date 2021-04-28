@@ -62,7 +62,6 @@ func (a *AuthClient) GetAccessToken()(*AccessResponse,error){
 	client := a.HttpClient
 	req, _ := http.NewRequest(method, a.URL, bytes.NewBuffer(data))
 	req.Header.Add("Content-Type", "application/json")
-
 	res, err := client.Do(req)
 	if err != nil {
 		return nil, err

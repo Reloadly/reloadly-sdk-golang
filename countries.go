@@ -24,7 +24,7 @@ func (c *Client) GetCountries()(*[]Country, error){
 
 	requestUrl := c.BaseURL + "/countries"
 	req, _ := http.NewRequest(method, requestUrl, nil)
-
+	req.Header.Add("Reloadly-Client", c.telemetryHeader)
 
 	res, err := client.Do(req)
 
@@ -60,7 +60,7 @@ func (c *Client) GetCountriesByIso(ISO string)(*Country, error){
 
 	requestUrl := c.BaseURL + "/countries/" + ISO
 	req, _ := http.NewRequest(method, requestUrl, nil)
-
+	req.Header.Add("Reloadly-Client", c.telemetryHeader)
 
 	res, err := client.Do(req)
 

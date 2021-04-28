@@ -90,6 +90,7 @@ func (c *Client) Topup(amount, operatorID string, useLocalAmount bool, recipient
 
 	req.Header.Add("Authorization", c.AuthHeader)
 	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Reloadly-Client", c.telemetryHeader)
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -151,6 +152,7 @@ func (c *Client) NautaCubaTopup(amount, operatorID string, useLocalAmount bool, 
 
 	req.Header.Add("Authorization", c.AuthHeader)
 	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Reloadly-Client", c.telemetryHeader)
 
 	res, err := client.Do(req)
 	if err != nil {

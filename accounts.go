@@ -23,7 +23,7 @@ func (c *Client) GetBalance()(*AccountBalance, error){
 	req, _ := http.NewRequest(method, requestUrl, nil)
 
 	req.Header.Add("Authorization", c.AuthHeader)
-
+	req.Header.Add("Reloadly-Client", c.telemetryHeader)
 	res, err := client.Do(req)
 
 	if err != nil {
