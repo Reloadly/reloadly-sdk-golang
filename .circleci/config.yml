@@ -19,3 +19,7 @@ jobs:
       - run:
           name: Run tests
           command: go test -v
+      - run:
+          name: Upload Coverage
+          when: on_success
+          command: bash <(curl -s https://codecov.io/bash) -Z -C $CODECOV_TOKEN
