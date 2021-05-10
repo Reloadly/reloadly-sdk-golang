@@ -1,3 +1,3 @@
-module github.com/Ghvstcode/reloadly
+module github.com/reloadly/reloadly
 
 go 1.15

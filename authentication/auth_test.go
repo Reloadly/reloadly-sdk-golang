@@ -2,7 +2,7 @@ package authentication_test
 
 import (
 	"errors"
-	"github.com/Ghvstcode/reloadly/authentication"
+	"github.com/reloadly/reloadly/authentication"
 	"reflect"
 	"testing"
 )

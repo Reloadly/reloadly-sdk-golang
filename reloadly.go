@@ -3,8 +3,8 @@ package reloadly
 import (
 	"encoding/base64"
 	"encoding/json"
-	"github.com/Ghvstcode/reloadly/authentication"
-	error2 "github.com/Ghvstcode/reloadly/error"
+	"github.com/reloadly/reloadly/authentication"
+	error2 "github.com/reloadly/reloadly/error"
 	"net/http"
 	"strconv"
 )

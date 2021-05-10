@@ -2,8 +2,8 @@ package reloadly_test
 
 import (
 	"encoding/json"
-	"github.com/Ghvstcode/reloadly"
-	Err "github.com/Ghvstcode/reloadly/error"
+	"github.com/reloadly/reloadly"
+	Err "github.com/reloadly/reloadly/error"
 	"net/http"
 	"net/http/httptest"
 	"strings"

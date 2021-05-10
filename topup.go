@@ -3,7 +3,7 @@ package reloadly
 import (
 	"encoding/json"
 	"errors"
-	error2 "github.com/Ghvstcode/reloadly/error"
+	error2 "github.com/reloadly/reloadly/error"
 	"net/http"
 	"strings"
 )

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	error2 "github.com/Ghvstcode/reloadly/error"
+	error2 "github.com/reloadly/reloadly/error"
 	"net/http"
 	"strconv"
 )

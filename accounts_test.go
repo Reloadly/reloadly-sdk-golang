@@ -2,7 +2,7 @@ package reloadly_test
 
 import (
 	"encoding/json"
-	"github.com/Ghvstcode/reloadly"
+	"github.com/reloadly/reloadly"
 	"net/http"
 	"testing"
 )

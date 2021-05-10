@@ -2,7 +2,7 @@ package reloadly_test
 
 import (
 	"encoding/json"
-	"github.com/Ghvstcode/reloadly"
+	"github.com/reloadly/reloadly"
 	"net/http"
 	"testing"
 )
@@ -20,7 +20,6 @@ func TestClient_GetOperatorsByPhone(t *testing.T) {
 		json.NewEncoder(rw).Encode(data)
 
 	})
-
 	body, err := client.GetOperatorsByPhone("+123456", "NG")
 	if err != nil {
 		t.Errorf("Expected error to be nil but got %q",  err)
