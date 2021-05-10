@@ -1,3 +1,5 @@
+<img src="icon.png" width="89" height="130" align="right" alt="reloadly-golang-icon"/>
+
 # Reloadly SDK for Golang
 
 [![CircleCI][circle-ci-badge]][circle-ci-url] [![MIT][mit-badge]][mit-url] [![codecov][codecov-badge]][codecov-url]
