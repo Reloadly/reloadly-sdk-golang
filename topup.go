@@ -3,7 +3,7 @@ package reloadly
 import (
 	"encoding/json"
 	"errors"
-	error2 "github.com/reloadly/reloadly/error"
+	error2 "github.com/reloadly/reloadly-sdk-golang/error"
 	"net/http"
 	"strings"
 )

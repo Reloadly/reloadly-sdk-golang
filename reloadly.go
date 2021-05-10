@@ -3,8 +3,8 @@ package reloadly
 import (
 	"encoding/base64"
 	"encoding/json"
-	"github.com/reloadly/reloadly/authentication"
-	error2 "github.com/reloadly/reloadly/error"
+	"github.com/reloadly/reloadly-sdk-golang/authentication"
+	error2 "github.com/reloadly/reloadly-sdk-golang/error"
 	"net/http"
 	"strconv"
 )

@@ -2,8 +2,8 @@ package reloadly_test
 
 import (
 	"encoding/json"
-	"github.com/reloadly/reloadly"
-	Err "github.com/reloadly/reloadly/error"
+	"github.com/reloadly/reloadly-sdk-golang"
+	Err "github.com/reloadly/reloadly-sdk-golang/error"
 	"net/http"
 	"net/http/httptest"
 	"strings"

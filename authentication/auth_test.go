@@ -2,7 +2,7 @@ package authentication_test
 
 import (
 	"errors"
-	"github.com/reloadly/reloadly/authentication"
+	"github.com/reloadly/reloadly-sdk-golang/authentication"
 	"reflect"
 	"testing"
 )

@@ -114,9 +114,9 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 
 [maven-url]: https://search.maven.org/search?q=g:software.reloadly
 
-[circle-ci-badge]: https://circleci.com/gh/Reloadly/reloadly-sdk-java.svg?style=svg&circle-token=f06dbc5f2511715447dd8d62ff00065cb245701e
+[circle-ci-badge]: https://circleci.com/gh/Reloadly/reloadly-sdk-golang.svg?style=svg&circle-token=8f018250b6732bd0be3b183cb09c94942f800b0a
 
-[circle-ci-url]: https://circleci.com/gh/Reloadly/reloadly-sdk-java/tree/main
+[circle-ci-url]: https://app.circleci.com/pipelines/github/Reloadly/reloadly-sdk-golang
 
 [codecov-badge]: https://codecov.io/gh/reloadly/reloadly-sdk-java/branch/main/graph/badge.svg?token=8U89VKQ2BF
 
@@ -129,3 +129,5 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 [stack-overflow]: http://stackoverflow.com/questions/tagged/reloadly-reloadly-sdk
 
 [support-center]: https://faq.reloadly.com/en/articles/3423196-contacting-support
+
+[sdk-website]: https://www.reloadly.com

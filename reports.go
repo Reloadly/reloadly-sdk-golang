@@ -2,7 +2,7 @@ package reloadly
 
 import (
 	"encoding/json"
-	error2 "github.com/reloadly/reloadly/error"
+	error2 "github.com/reloadly/reloadly-sdk-golang/error"
 	"net/http"
 	"strconv"
 )

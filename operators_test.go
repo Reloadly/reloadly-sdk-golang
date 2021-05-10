@@ -2,7 +2,7 @@ package reloadly_test
 
 import (
 	"encoding/json"
-	"github.com/reloadly/reloadly"
+	"github.com/reloadly/reloadly-sdk-golang"
 	"net/http"
 	"testing"
 )
