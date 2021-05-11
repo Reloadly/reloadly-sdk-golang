@@ -2,13 +2,17 @@
 
 # Reloadly SDK for Golang
 
-[![CircleCI][circle-ci-badge]][circle-ci-url] [![MIT][mit-badge]][mit-url] [![codecov][codecov-badge]][codecov-url] [![Go Reference][golang-reference-badge]][golang-reference-url]
-The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloadly Services][reloadly-main-site] and build scalable solutions. You can get started in minutes if you have Go 1.15+ installed on your machine.
+[![CircleCI][circle-ci-badge]][circle-ci-url]
+[![MIT][mit-badge]][mit-url]
+[![codecov][codecov-badge]][codecov-url]
+[![Go Reference][golang-reference-badge]][golang-reference-url]
+
+The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloadly Services][reloadly-main-site] and
+build scalable solutions. You can get started in minutes if you have Go 1.15+ installed on your machine.
 
 * [SDK Homepage][sdk-website] (Coming soon)
 * [Sample Code][sample-code]
 * [API Docs][docs-api]
-* [Go Docs][godoc]
 * [Issues][sdk-issues]
 * [Giving Feedback](#giving-feedback)
 * [Getting Help](#getting-help)
@@ -16,18 +20,29 @@ The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloa
 ## Getting Started
 
 #### Sign up for Reloadly ####   
-Before you begin, you need a Reloadly account. Please see the [Sign Up for Reloadly][reloadly-signup-help] section of    
-the knowledge-base for information about how to create a Reloadly account and retrieve    
+
+Before you begin, you need a Reloadly account. Please see the [Sign Up for Reloadly][reloadly-signup-help] section of
+the knowledge-base for information about how to create a Reloadly account and retrieve
 your [Reloadly APIs credentials][api-credentials-help].
 
 #### Minimum requirements ####   
+
 **Go 1.15+** installed
 
 #### Installation
+
 `$ go get -u github.com/reloadly/reloadly-sdk-golang`
+
 ## Usage
+
 #### Authentication
-The Authentication module is implemented based on the [Authentication API Docs](https://developers.reloadly.com/#authentication-api). This module has a `GetAccessToken` function which is used to derive an accessToken. The access Token which should be used as a bearer token when making authenticated requests to the Reloadly API. **This module should be used only when you just need the access token,  but do not intend to use this library for other interactions with Reloadly API**.
+
+The Authentication module is implemented based on
+the [Authentication API Docs](https://developers.reloadly.com/#authentication-api). This module has a `GetAccessToken`
+function which is used to derive an accessToken. The access Token which should be used as a bearer token when making
+authenticated requests to the Reloadly API. **This module should be used only when you just need the access token, but
+do not intend to use this library for other interactions with Reloadly API**.
+
 ```Go  
 authClient,err := authentication.NewAuthClient(clientID, clientSecret, false)  
   
@@ -50,8 +65,8 @@ fmt.Println(accessToken,expiresIn)
 
 ## Getting Help
 
-GitHub [issues][sdk-issues] is the preferred channel to interact with our team. Also check these community resources for    
-getting help:
+GitHub [issues][sdk-issues] is the preferred channel to interact with our team. Also check these community resources
+for getting help:
 
 * Checkout & search our [knowledge-base][reloadly-knowledge-base]
 * Talk to us live on our chat tool on our [website][reloadly-main-site] (bottom right)
@@ -64,7 +79,6 @@ getting help:
 ## Documentation
 
 Please see the [Godoc](https://pkg.go.dev/github.com/Ghvstcode/reloadly) for the most up-to-date documentation.
-
 
 ## Giving Feedback
 
