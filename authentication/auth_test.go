@@ -41,7 +41,7 @@ func TestNewAuthClient(t *testing.T) {
 		if res != nil{
 			t.Skip("Skipped the rest of the tests")
 			if c.ExpectedSandbox != res.SandBox{
-				t.Fatalf("Expected Sandbox to be %s but got %s", c.ExpectedSandbox, res.URL)
+				t.Fatalf("Expected Sandbox to be %t but got %s", c.ExpectedSandbox, res.URL)
 			}
 
 		}

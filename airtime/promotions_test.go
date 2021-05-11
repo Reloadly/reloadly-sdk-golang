@@ -1,45 +1,45 @@
-package reloadly_test
+package airtime_test
 
 import (
 	"encoding/json"
-	"github.com/reloadly/reloadly-sdk-golang"
+	reloadly "github.com/reloadly/reloadly-sdk-golang/airtime"
 	"net/http"
 	"testing"
 )
 
-func TestClient_GetTransactions(t *testing.T) {
+func TestClient_GetPromotions(t *testing.T) {
 	teardown := setup()
 
 	defer teardown()
 
-	mux.HandleFunc("/topups/reports/transactions", func(rw http.ResponseWriter, req *http.Request) {
-
+	mux.HandleFunc("/promotions", func(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(http.StatusOK)
-		data := reloadly.Transactions{}
+		data := reloadly.Promotions{}
 		json.NewEncoder(rw).Encode(data)
 
 	})
 
-	_, err := client.GetTransactions()
+	_, err := client.GetPromotions()
 	if err != nil {
 		t.Errorf("Expected error to be nil but got %q",  err)
 	}
 }
 
-func TestClient_GetTransactionsByID(t *testing.T) {
+func TestClient_GetPromotionsByCode(t *testing.T) {
 	teardown := setup()
 
 	defer teardown()
 
 	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(http.StatusOK)
-		data := reloadly.Transaction{}
+		var data []reloadly.Promotion
 		json.NewEncoder(rw).Encode(data)
 
 	})
 
-	_, err := client.GetTransactionsByID(74)
+	_, err := client.GetPromotionsByCountryCode("NG")
 	if err != nil {
 		t.Errorf("Expected error to be nil but got %q",  err)
 	}
 }
+

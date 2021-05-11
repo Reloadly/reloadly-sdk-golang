@@ -9,7 +9,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Reloadly/reloadly"
+	reloadly "github.com/reloadly/reloadly-sdk-golang/airtime"
 )
 
 func main (){

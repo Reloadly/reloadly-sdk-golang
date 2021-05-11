@@ -1,8 +1,8 @@
-package reloadly_test
+package airtime_test
 
 import (
 	"encoding/json"
-	"github.com/reloadly/reloadly-sdk-golang"
+	reloadly "github.com/reloadly/reloadly-sdk-golang/airtime"
 	"net/http"
 	"testing"
 )
@@ -54,5 +54,31 @@ func TestClient_GetFXRate(t *testing.T) {
 
 	if body.FxRate != 65 {
 		t.Errorf("Expected OperatorID to be 65 but got %v",  body.FxRate)
+	}
+}
+
+func TestClient_GetOperatorsByISO(t *testing.T) {
+	teardown := setup()
+
+	defer teardown()
+
+	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
+		rw.WriteHeader(http.StatusOK)
+		data := reloadly.Operators{
+			TotalPages:    5,
+			Size: 20,
+		}
+
+		json.NewEncoder(rw).Encode(data)
+
+	})
+
+	body, err := client.GetOperatorsByISO("011")
+	if err != nil {
+		t.Errorf("Expected error to be nil but got %q",  err)
+	}
+
+	if body.Size != 20 {
+		t.Errorf("Expected Size to be 20 but got %v",  body.Size)
 	}
 }

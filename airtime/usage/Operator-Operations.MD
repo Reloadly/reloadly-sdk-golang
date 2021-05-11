@@ -19,7 +19,7 @@ currency**.
     
     import (
         "fmt"
-        "github.com/Ghvstcode/reloadly"
+		reloadly "github.com/reloadly/reloadly-sdk-golang/airtime"
     )
     
     func main (){

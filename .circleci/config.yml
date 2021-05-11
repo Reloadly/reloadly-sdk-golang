@@ -18,7 +18,7 @@ jobs:
             - "/go/pkg/mod"
       - run:
           name: Run tests
-          command: go test -race -coverprofile=coverage.txt -covermode=atomic
+          command: go test ./... -race -coverprofile=coverage.txt -covermode=atomic
       - run:
           name: Upload Coverage
           when: on_success

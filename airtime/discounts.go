@@ -1,37 +1,13 @@
-package reloadly
+package airtime
 
 import (
 	"encoding/json"
 	error2 "github.com/reloadly/reloadly-sdk-golang/error"
 	"net/http"
-	"strconv"
 )
 
-//Transaction represents a single Transaction made!
-type Transaction struct {
-	TransactionID               int         `json:"transactionId"`
-	OperatorTransactionID       interface{} `json:"operatorTransactionId"`
-	CustomIdentifier            string      `json:"customIdentifier"`
-	RecipientPhone              string      `json:"recipientPhone"`
-	RecipientEmail              interface{} `json:"recipientEmail"`
-	SenderPhone                 string      `json:"senderPhone"`
-	CountryCode                 string      `json:"countryCode"`
-	OperatorID                  int         `json:"operatorId"`
-	OperatorName                string      `json:"operatorName"`
-	Discount                    float64     `json:"discount"`
-	DiscountCurrencyCode        string      `json:"discountCurrencyCode"`
-	RequestedAmount             interface{}         `json:"requestedAmount"`
-	RequestedAmountCurrencyCode string      `json:"requestedAmountCurrencyCode"`
-	DeliveredAmount             float64     `json:"deliveredAmount"`
-	DeliveredAmountCurrencyCode string      `json:"deliveredAmountCurrencyCode"`
-	TransactionDate             string      `json:"transactionDate"`
-	PinDetail                   interface{} `json:"pinDetail"`
-	BalanceInfo                 interface{} `json:"balanceInfo"`
-}
-
-//Transactions Is the list of all transactions made using Reloadly
-type Transactions struct {
-	Content []Transaction `json:"content"`
+type Discounts struct {
+	Content []Discount `json:"content"`
 	Pageable struct {
 		Sort struct {
 			Sorted   bool `json:"sorted"`
@@ -59,12 +35,25 @@ type Transactions struct {
 	Empty            bool `json:"empty"`
 }
 
-//GetTransactions is used to retrieve a list of all past transactions.
-//Just like all systems, We also keep a record of all transactions so that our users can track their activity in their respective dashboards.
-//Apart from doing just that we also provide a neat way to integrate transactions into your own systems.
-//You can get a complete list of your past top-up transactions by calling the GetTransactions function. Internally, it makes a GET request to the /topups/reports/transactions Endpoint.
-//This will provide you with a paginated result with all your recent transactions and the ability to paginate to further previous transactions.
-func (c *Client)GetTransactions(filter ...Filters)(*Transactions, error){
+type Discount struct {
+	Percentage              float64 `json:"percentage"`
+	InternationalPercentage float64 `json:"internationalPercentage"`
+	LocalPercentage         float64 `json:"localPercentage"`
+	UpdatedAt               string  `json:"updatedAt"`
+	Operator                struct {
+		ID          int    `json:"id"`
+		OperatorID  int    `json:"operatorId"`
+		Name        string `json:"name"`
+		CountryCode string `json:"countryCode"`
+		Data        bool   `json:"data"`
+		Bundle      bool   `json:"bundle"`
+		Status      bool   `json:"status"`
+	} `json:"operator"`
+}
+
+
+//GetDiscounts Retrieves all available discounts
+func (c *Client)GetDiscounts(filter ...Filters)(*Discounts, error){
 	o := &FilterOptions{}
 	for _, opt := range filter {
 		opt(o)
@@ -89,7 +78,7 @@ func (c *Client)GetTransactions(filter ...Filters)(*Transactions, error){
 	method := "GET"
 	client := c.HttpClient
 
-	requestUrl := c.BaseURL + "/topups/reports/transactions" + query
+	requestUrl := c.BaseURL + "/operators/commissions" + query
 	req, _ := http.NewRequest(method, requestUrl, nil)
 
 	req.Header.Add("Authorization", c.AuthHeader)
@@ -103,7 +92,7 @@ func (c *Client)GetTransactions(filter ...Filters)(*Transactions, error){
 	defer res.Body.Close()
 
 	var e error2.ErrorResponse
-	var r Transactions
+	var r Discounts
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
@@ -121,12 +110,12 @@ func (c *Client)GetTransactions(filter ...Filters)(*Transactions, error){
 	return &r, nil
 }
 
-//GetTransactionsByID fetches a specific transaction By it's ID
-func (c *Client)GetTransactionsByID(Id int)(*Transaction, error){
+//GetDiscountsByOperatorID is used to retrieve a specific Discount associated with an Operator
+func (c *Client)GetDiscountsByOperatorID(OperatorID string)(*Discounts, error){
 	method := "GET"
 	client := c.HttpClient
 
-	requestUrl := c.BaseURL + "/topups/reports/transactions/" + strconv.Itoa(Id)
+	requestUrl := c.BaseURL + "/operators/" + OperatorID + "/commissions"
 	req, _ := http.NewRequest(method, requestUrl, nil)
 
 	req.Header.Add("Authorization", c.AuthHeader)
@@ -140,7 +129,7 @@ func (c *Client)GetTransactionsByID(Id int)(*Transaction, error){
 	defer res.Body.Close()
 
 	var e error2.ErrorResponse
-	var r Transaction
+	var r Discounts
 	if res.StatusCode  != http.StatusOK {
 		err := json.NewDecoder(res.Body).Decode(&e)
 		if err != nil {
@@ -157,3 +146,7 @@ func (c *Client)GetTransactionsByID(Id int)(*Transaction, error){
 
 	return &r, nil
 }
+
+
+
+

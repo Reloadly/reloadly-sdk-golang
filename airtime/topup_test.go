@@ -1,8 +1,8 @@
-package reloadly_test
+package airtime_test
 
 import (
 	"encoding/json"
-	"github.com/reloadly/reloadly-sdk-golang"
+	reloadly "github.com/reloadly/reloadly-sdk-golang/airtime"
 	Err "github.com/reloadly/reloadly-sdk-golang/error"
 	"net/http"
 	"net/http/httptest"

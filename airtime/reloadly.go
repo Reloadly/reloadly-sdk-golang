@@ -1,4 +1,4 @@
-package reloadly
+package airtime
 
 import (
 	"encoding/base64"

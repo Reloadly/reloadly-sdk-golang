@@ -9,7 +9,7 @@ Retrieve various reports such as transaction history etc...
 
     import (
         "fmt"
-        "github.com/Ghvstcode/reloadly"
+		reloadly "github.com/reloadly/reloadly-sdk-golang/airtime"
     )
 
     func main (){

@@ -11,7 +11,7 @@ on the different operators promotions and to showcase these to your customers.
     
     import (
         "fmt"
-        "github.com/Ghvstcode/reloadly"
+		reloadly "github.com/reloadly/reloadly-sdk-golang/airtime"
     )
     
     func main (){

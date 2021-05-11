@@ -3,8 +3,6 @@
 # Reloadly SDK for Golang
 
 [![CircleCI][circle-ci-badge]][circle-ci-url] [![MIT][mit-badge]][mit-url] [![codecov][codecov-badge]][codecov-url]
-<!--[![Maven][maven-badge]][maven-url]-->    
-
 The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloadly Services][reloadly-main-site] and build scalable solutions. You can get started in minutes if you have Go 1.15+ installed on your machine.
 
 * [SDK Homepage][sdk-website] (Coming soon)
@@ -118,9 +116,9 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 
 [circle-ci-url]: https://app.circleci.com/pipelines/github/Reloadly/reloadly-sdk-golang
 
-[codecov-badge]: https://codecov.io/gh/reloadly/reloadly-sdk-java/branch/main/graph/badge.svg?token=8U89VKQ2BF
+[codecov-badge]: https://codecov.io/gh/Reloadly/reloadly-sdk-golang/branch/main/graph/badge.svg?token=SUV66Q3J2Y
 
-[codecov-url]: https://app.codecov.io/gh/reloadly/reloadly-sdk-java
+[codecov-url]: https://codecov.io/gh/Reloadly/reloadly-sdk-golang
 
 [youtube-series]: https://www.youtube.com/watch?v=TbXC4Ic8x30&t=141s&ab_channel=Reloadly
 
