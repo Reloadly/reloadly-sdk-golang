@@ -22,7 +22,7 @@ your [Reloadly APIs credentials][api-credentials-help].
 **Go 1.15+** installed
 
 #### Installation
-`$ go get -u github.com/Ghvstcode/reloadly`
+`$ go get -u github.com/reloadly/reloadly-sdk-golang`
 ## Usage
 #### Authentication
 The Authentication module is implemented based on the [Authentication API Docs](https://developers.reloadly.com/#authentication-api). This module has a `GetAccessToken` function which is used to derive an accessToken. The access Token which should be used as a bearer token when making authenticated requests to the Reloadly API. **This module should be used only when you just need the access token,  but do not intend to use this library for other interactions with Reloadly API**.
