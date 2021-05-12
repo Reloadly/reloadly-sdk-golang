@@ -2,10 +2,16 @@
 
 # Reloadly SDK for Golang
 
-[![CircleCI][circle-ci-badge]][circle-ci-url] [![MIT][mit-badge]][mit-url] [![codecov][codecov-badge]][codecov-url]
-The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloadly Services][reloadly-main-site] and build scalable solutions. You can get started in minutes if you have Go 1.15+ installed on your machine.
+[![CircleCI][circle-ci-badge]][circle-ci-url]
+[![MIT][mit-badge]][mit-url]
+[![codecov][codecov-badge]][codecov-url]
+[![Go Reference][golang-reference-badge]][golang-reference-url]
+
+The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloadly Services][reloadly-main-site] and
+build scalable solutions. You can get started in minutes if you have Go 1.15+ installed on your machine.
 
 * [SDK Homepage][sdk-website] (Coming soon)
+* [Sample Code][sample-code]
 * [API Docs][docs-api]
 * [Issues][sdk-issues]
 * [Giving Feedback](#giving-feedback)
@@ -14,18 +20,29 @@ The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloa
 ## Getting Started
 
 #### Sign up for Reloadly ####   
-Before you begin, you need a Reloadly account. Please see the [Sign Up for Reloadly][reloadly-signup-help] section of    
-the knowledge-base for information about how to create a Reloadly account and retrieve    
+
+Before you begin, you need a Reloadly account. Please see the [Sign Up for Reloadly][reloadly-signup-help] section of
+the knowledge-base for information about how to create a Reloadly account and retrieve
 your [Reloadly APIs credentials][api-credentials-help].
 
 #### Minimum requirements ####   
+
 **Go 1.15+** installed
 
 #### Installation
+
 `$ go get -u github.com/reloadly/reloadly-sdk-golang`
+
 ## Usage
+
 #### Authentication
-The Authentication module is implemented based on the [Authentication API Docs](https://developers.reloadly.com/#authentication-api). This module has a `GetAccessToken` function which is used to derive an accessToken. The access Token which should be used as a bearer token when making authenticated requests to the Reloadly API. **This module should be used only when you just need the access token,  but do not intend to use this library for other interactions with Reloadly API**.
+
+The Authentication module is implemented based on
+the [Authentication API Docs](https://developers.reloadly.com/#authentication-api). This module has a `GetAccessToken`
+function which is used to derive an accessToken. The access Token which should be used as a bearer token when making
+authenticated requests to the Reloadly API. **This module should be used only when you just need the access token, but
+do not intend to use this library for other interactions with Reloadly API**.
+
 ```Go  
 authClient,err := authentication.NewAuthClient(clientID, clientSecret, false)  
   
@@ -48,12 +65,12 @@ fmt.Println(accessToken,expiresIn)
 
 ## Getting Help
 
-GitHub [issues][sdk-issues] is the preferred channel to interact with our team. Also check these community resources for    
-getting help:
+GitHub [issues][sdk-issues] is the preferred channel to interact with our team. Also check these community resources
+for getting help:
 
 * Checkout & search our [knowledge-base][reloadly-knowledge-base]
 * Talk to us live on our chat tool on our [website][reloadly-main-site] (bottom right)
-* Ask a question on [StackOverflow][stack-overflow] and tag it with `reloadly-java-sdk`
+* Ask a question on [StackOverflow][stack-overflow] and tag it with `reloadly-golang-sdk`
 * Articulate your feature request or upvote existing ones on our [Issues][features] page
 * Take a look at our [youtube series][youtube-series] for plenty of helpful walkthroughs and tips
 * Open a case via with the [Reloadly Support Center][support-center]
@@ -63,14 +80,13 @@ getting help:
 
 Please see the [Godoc](https://pkg.go.dev/github.com/Ghvstcode/reloadly) for the most up-to-date documentation.
 
-
 ## Giving Feedback
 
 We need your help in making this SDK great. Please participate in the community and contribute to this effort by    
 submitting issues, participating in discussion forums and submitting pull requests through the following channels:
 
 * Submit [issues][sdk-issues] - this is the preferred channel to interact with our team
-* Come join the Reloadly Java community chat on [Gitter][gitter]
+* Come join the Reloadly Golang community chat on [Gitter][gitter]
 * Articulate your feature request or upvote existing ones on our [Issues][features] page
 * Send feedback directly to the team at oss@reloadly.com
 
@@ -88,17 +104,17 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 
 [sdk-license]: http://www.reloadly.com/software/apache2.0/
 
-[gitter]: https://gitter.im/reloadly/reloadly-sdk-java
+[gitter]: https://gitter.im/reloadly/reloadly-sdk-golang
 
-[sample-code]: https://github.com/reloadly/reloadly-sdk-java/blob/master/SAMPLE-CODE.md
+[sample-code]: https://github.com/reloadly/reloadly-sdk-golang/blob/main/SAMPLE_CODE.MD
 
 [docs-api]: https://developers.reloadly.com
 
-[features]: https://github.com/reloadly/reloadly-sdk-java/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature-request%22
+[features]: https://github.com/reloadly/reloadly-sdk-golang/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature-request%22
 
 [api-docs]: https://developers.reloadly.com
 
-[godoc]: https://pkg.go.dev/github.com/Ghvstcode/reloadly
+[godoc]: https://pkg.go.dev/github.com/reloadly/reloadly-sdk-golang
 
 [lombok]: https://projectlombok.org
 
@@ -106,11 +122,7 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 
 [mit-badge]: http://img.shields.io/:license-mit-blue.svg?style=flat
 
-[mit-url]: https://github.com/reloadly/reloadly-sdk-java/raw/master/LICENSE
-
-[maven-badge]: https://img.shields.io/maven-central/v/software.reloadly/java-sdk-airtime.svg?label=Maven%20Central
-
-[maven-url]: https://search.maven.org/search?q=g:software.reloadly
+[mit-url]: https://github.com/reloadly/reloadly-sdk-golang/raw/main/LICENSE
 
 [circle-ci-badge]: https://circleci.com/gh/Reloadly/reloadly-sdk-golang.svg?style=svg&circle-token=8f018250b6732bd0be3b183cb09c94942f800b0a
 
@@ -129,3 +141,7 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 [support-center]: https://faq.reloadly.com/en/articles/3423196-contacting-support
 
 [sdk-website]: https://www.reloadly.com
+
+[golang-reference-badge]: https://pkg.go.dev/badge/github.com/reloadly/reloadly-sdk-golang.svg
+
+[golang-reference-url]: https://pkg.go.dev/github.com/reloadly/reloadly-sdk-golang
