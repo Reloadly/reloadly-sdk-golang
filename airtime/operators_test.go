@@ -82,3 +82,45 @@ func TestClient_GetOperatorsByISO(t *testing.T) {
 		t.Errorf("Expected Size to be 20 but got %v",  body.Size)
 	}
 }
+
+func TestClient_GetOperators(t *testing.T) {
+	teardown := setup()
+
+	defer teardown()
+
+	mux.HandleFunc("/operators", func(rw http.ResponseWriter, req *http.Request) {
+		rw.WriteHeader(http.StatusOK)
+		data := reloadly.Operators{
+			TotalPages:    5,
+			Size: 20,
+		}
+
+		json.NewEncoder(rw).Encode(data)
+
+	})
+
+	body, err := client.GetOperators()
+	if err != nil {
+		t.Errorf("Expected error to be nil but got %q",  err)
+	}
+
+	if body.Size != 20 {
+		t.Errorf("Expected Size to be 20 but got %v",  body.Size)
+	}
+}
+
+func TestClient_GetOperatorsById(t *testing.T) {
+	teardown := setup()
+
+	defer teardown()
+
+	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
+		rw.WriteHeader(http.StatusInternalServerError)
+
+	})
+
+	_, err := client.GetOperators()
+	if err == nil {
+		t.Errorf("Expected error but got nil")
+	}
+}
