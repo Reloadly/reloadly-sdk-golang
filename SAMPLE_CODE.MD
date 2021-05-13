@@ -2,7 +2,7 @@
 
 ## Authentication SDK
 
-* [Usage](https://github.com/Reloadly/reloadly-sdk-golang/blob/main/authentication/usage/USAGE.MD)
+* [Usage](https://github.com/Reloadly/reloadly-sdk-golang/blob/main/authentication/Usage/Usage.MD)
 
 ## Airtime SDK
 
