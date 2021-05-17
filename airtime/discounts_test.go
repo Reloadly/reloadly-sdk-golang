@@ -35,3 +35,22 @@ func TestClient_GetDiscounts(t *testing.T) {
 		t.Errorf("Expected TotalElements to be 20 but got %v",  body.TotalElements)
 	}
 }
+
+func TestClient_GetDiscountsByOperatorID(t *testing.T) {
+	teardown := setup()
+
+	defer teardown()
+
+	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
+		rw.WriteHeader(http.StatusInternalServerError)
+	})
+
+	body, err := client.GetDiscountsByOperatorID("")
+	if err == nil {
+		t.Errorf("Expected error but got nil")
+	}
+
+	if body != nil {
+		t.Errorf("Expected body to be nil but got %v",  body)
+	}
+}
