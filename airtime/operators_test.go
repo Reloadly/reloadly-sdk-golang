@@ -66,8 +66,12 @@ func TestClient_GetOperatorsByISO(t *testing.T) {
 		rw.WriteHeader(http.StatusOK)
 		data := reloadly.Operators{
 			TotalPages:    5,
-			Size: 20,
+			Size:             20,
 		}
+		//data := reloadly.Operators{
+		//	TotalPages:    5,
+		//	Size: 20,
+		//}
 
 		json.NewEncoder(rw).Encode(data)
 
