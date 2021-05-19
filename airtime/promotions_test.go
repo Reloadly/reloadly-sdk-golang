@@ -25,7 +25,7 @@ func TestClient_GetPromotions(t *testing.T) {
 	}
 }
 
-func TestClient_GetPromotionsByCountryCode(t *testing.T) {
+func TestClient_GetPromotionsByCode(t *testing.T) {
 	teardown := setup()
 
 	defer teardown()
@@ -43,22 +43,33 @@ func TestClient_GetPromotionsByCountryCode(t *testing.T) {
 	}
 }
 
+func TestClient_GetPromotionsById(t *testing.T) {
+	teardown := setup()
+
+	defer teardown()
+
+	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
+		rw.WriteHeader(http.StatusInternalServerError)
+	})
+
+	_, err := client.GetPromotionsById(0123)
+	if err == nil {
+		t.Errorf("Expected error but got nil")
+	}
+}
+
 func TestClient_GetPromotionsByOperatorId(t *testing.T) {
 	teardown := setup()
 
 	defer teardown()
 
 	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
-		rw.WriteHeader(http.StatusOK)
-		var data []reloadly.Promotion
-		json.NewEncoder(rw).Encode(data)
-
+		rw.WriteHeader(http.StatusInternalServerError)
 	})
 
-	_, err := client.GetPromotionsByOperatorId(3)
-	if err != nil {
-		t.Errorf("Expected error to be nil but got %q",  err)
+	_, err := client.GetPromotionsByOperatorId(0123)
+	if err == nil {
+		t.Errorf("Expected error but got nil")
 	}
 }
-
 

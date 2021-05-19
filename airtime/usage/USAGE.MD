@@ -26,7 +26,7 @@ Set the client id, client secret & environment; The most straight-forward or sim
     package main
 
     import (
-      	"github.com/Ghvstcode/reloadly" 
+      	"github.com/reloadly/reloadly-sdk-golang/authentication" 
       	"fmt"
     )
 
@@ -43,14 +43,14 @@ Set the client id, client secret & environment; The most straight-forward or sim
 ### Option 2
 
 You may alternatively acquire an access token from the
-[AuthenticationAPI](https://github.com/reloadly/reloadly-sdk-java/blob/master/reloadly-java-sdk-authentication/USAGE.md)
+[AuthenticationAPI](https://developers.reloadly.com/#authentication_auth_anc)
 and then set it.
 
 ```golang
       package main
 
       import (
-        "github.com/Ghvstcode/reloadly/authentication"
+        "github.com/reloadly/reloadly-sdk-golang/authentication"
         "fmt"
       )
 

@@ -64,6 +64,7 @@ type Transactions struct {
 //Apart from doing just that we also provide a neat way to integrate transactions into your own systems.
 //You can get a complete list of your past top-up transactions by calling the GetTransactions function. Internally, it makes a GET request to the /topups/reports/transactions Endpoint.
 //This will provide you with a paginated result with all your recent transactions and the ability to paginate to further previous transactions.
+
 func (c *Client)GetTransactions(filter ...Filters)(*Transactions, error){
 	o := &FilterOptions{}
 	for _, opt := range filter {
