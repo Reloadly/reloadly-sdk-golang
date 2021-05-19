@@ -2,13 +2,9 @@
 
 # Reloadly SDK for Golang
 
-[![CircleCI][circle-ci-badge]][circle-ci-url]
-[![MIT][mit-badge]][mit-url]
-[![codecov][codecov-badge]][codecov-url]
-[![Go Reference][golang-reference-badge]][golang-reference-url]
+[![CircleCI][circle-ci-badge]][circle-ci-url] [![MIT][mit-badge]][mit-url] [![codecov][codecov-badge]][codecov-url] [![Go Reference][golang-reference-badge]][golang-reference-url]
+The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloadly Services][reloadly-main-site] and build scalable solutions. You can get started in minutes if you have Go 1.15+ installed on your machine.
 
-The **Reloadly SDK for Golang** enables Go developers to easily work with [Reloadly Services][reloadly-main-site] and
-build scalable solutions. You can get started in minutes if you have Go 1.15+ installed on your machine.
 
 * [SDK Homepage][sdk-website] (Coming soon)
 * [Sample Code][sample-code]
