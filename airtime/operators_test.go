@@ -213,8 +213,8 @@ func TestAddData(t *testing.T) {
 		res(o)
 
 		if res != nil{
-			if c.IncludeData != o.IncludeData {
-				t.Fatalf("Expected Add Data Option to be %t but got %t", c.IncludeData, o.IncludeData)
+			if c.ExpectedIncludeData != o.IncludeData {
+				t.Fatalf("Expected Add Data Option to be %t but got %t", c.ExpectedIncludeData, o.IncludeData)
 			}
 
 		}
@@ -309,4 +309,5 @@ func TestAddPin(t *testing.T) {
 
 	}
 }
+
 
