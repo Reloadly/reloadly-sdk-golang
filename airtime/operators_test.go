@@ -310,4 +310,3 @@ func TestAddPin(t *testing.T) {
 	}
 }
 
-
