@@ -124,3 +124,33 @@ func TestGetPhone(t *testing.T) {
 
 	}
 }
+
+func TestAddCustomIdentifier(t *testing.T) {
+	cases := [] struct{
+		CustomIdentifier string
+		ExpectedCustomIdentifier string
+	}{
+		{
+			CustomIdentifier: "my-reloadly",
+			ExpectedCustomIdentifier: "my-reloadly",
+		},
+	}
+
+
+
+	for _, c := range cases {
+		res := reloadly.AddCustomIdentifier(c.CustomIdentifier)
+		o := &reloadly.TopupOpts{}
+		res(o)
+
+		if res != nil{
+			if c.ExpectedCustomIdentifier != o.CustomIdentifier {
+				t.Fatalf("Expected Custom Identifier to be %s but got %s", c.ExpectedCustomIdentifier, o.CustomIdentifier)
+			}
+
+		}
+
+
+	}
+}
+
