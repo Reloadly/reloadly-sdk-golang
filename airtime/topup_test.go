@@ -154,3 +154,37 @@ func TestAddCustomIdentifier(t *testing.T) {
 	}
 }
 
+func TestAddSenderPhone(t *testing.T) {
+	cases := [] struct{
+		SenderPhone reloadly.Phone
+		ExpectedSenderPhone reloadly.Phone
+	}{
+		{
+			SenderPhone: reloadly.Phone{
+				CountryCode: "NG",
+				Number:      "000000",
+			},
+			ExpectedSenderPhone: reloadly.Phone{
+				CountryCode: "NG",
+				Number:      "000000",
+			},
+		},
+	}
+
+
+
+	for _, c := range cases {
+		res := reloadly.AddSenderPhone(c.SenderPhone)
+		o := &reloadly.TopupOpts{}
+		res(o)
+
+		if res != nil{
+			if c.ExpectedSenderPhone != *o.SenderPhone {
+				t.Fatalf("Unexpected Sender Phone")
+			}
+
+		}
+
+
+	}
+}
