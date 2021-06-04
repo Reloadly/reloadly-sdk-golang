@@ -56,33 +56,58 @@ type Operator struct {
 
 //Operators struct represents list of Operators returned by Relaodly
 type Operators struct {
-	Content []Operator `json:"content"`
-	Pageable struct {
-		Sort struct {
-			Sorted   bool `json:"sorted"`
-			Unsorted bool `json:"unsorted"`
-			Empty    bool `json:"empty"`
-		} `json:"sort"`
-		PageNumber int  `json:"pageNumber"`
-		PageSize   int  `json:"pageSize"`
-		Offset     int  `json:"offset"`
-		Unpaged    bool `json:"unpaged"`
-		Paged      bool `json:"paged"`
-	} `json:"pageable"`
-	TotalElements int  `json:"totalElements"`
-	TotalPages    int  `json:"totalPages"`
-	Last          bool `json:"last"`
-	Sort          struct {
-		Sorted   bool `json:"sorted"`
-		Unsorted bool `json:"unsorted"`
-		Empty    bool `json:"empty"`
-	} `json:"sort"`
-	First            bool `json:"first"`
-	NumberOfElements int  `json:"numberOfElements"`
-	Size             int  `json:"size"`
-	Number           int  `json:"number"`
-	Empty            bool `json:"empty"`
+	ID                                int         `json:"id"`
+	OperatorID                        int         `json:"operatorId"`
+	Name                              string      `json:"name"`
+	Bundle                            bool        `json:"bundle"`
+	Data                              bool        `json:"data"`
+	Pin                               bool        `json:"pin"`
+	SupportsLocalAmounts              bool        `json:"supportsLocalAmounts"`
+	SupportsGeographicalRechargePlans bool        `json:"supportsGeographicalRechargePlans"`
+	DenominationType                  string      `json:"denominationType"`
+	SenderCurrencyCode                string      `json:"senderCurrencyCode"`
+	SenderCurrencySymbol              string      `json:"senderCurrencySymbol"`
+	DestinationCurrencyCode           string      `json:"destinationCurrencyCode"`
+	DestinationCurrencySymbol         string      `json:"destinationCurrencySymbol"`
+	Commission                        float64     `json:"commission"`
+	InternationalDiscount             float64     `json:"internationalDiscount"`
+	LocalDiscount                     float64     `json:"localDiscount"`
+	MostPopularAmount                 interface{} `json:"mostPopularAmount"`
+	MostPopularLocalAmount            interface{} `json:"mostPopularLocalAmount"`
+	MinAmount                         interface{} `json:"minAmount"`
+	MaxAmount                         interface{} `json:"maxAmount"`
+	LocalMinAmount                    interface{} `json:"localMinAmount"`
+	LocalMaxAmount                    interface{} `json:"localMaxAmount"`
+	Country                           struct {
+		IsoName string `json:"isoName"`
+		Name    string `json:"name"`
+	} `json:"country"`
+	Fx struct {
+		Rate         int    `json:"rate"`
+		CurrencyCode string `json:"currencyCode"`
+	} `json:"fx"`
+	LogoUrls                 []string      `json:"logoUrls"`
+	FixedAmounts             []interface{} `json:"fixedAmounts"`
+	FixedAmountsDescriptions struct {
+	} `json:"fixedAmountsDescriptions"`
+	LocalFixedAmounts             []interface{} `json:"localFixedAmounts"`
+	LocalFixedAmountsDescriptions struct {
+	} `json:"localFixedAmountsDescriptions"`
+	SuggestedAmounts    []interface{} `json:"suggestedAmounts"`
+	SuggestedAmountsMap struct {
+	} `json:"suggestedAmountsMap"`
+	GeographicalRechargePlans []struct {
+		LocationCode             string    `json:"locationCode"`
+		LocationName             string    `json:"locationName"`
+		FixedAmounts             []float64 `json:"fixedAmounts"`
+		LocalAmounts             []float64 `json:"localAmounts"`
+		FixedAmountsDescriptions struct {} `json:"fixedAmountsDescriptions"`
+		LocalFixedAmountsDescriptions struct {} `json:"localFixedAmountsDescriptions"`
+	} `json:"geographicalRechargePlans"`
+	Promotions []interface{} `json:"promotions"`
 }
+
+
 
 //OperatorFXRate represents FXRate returned by the Reloadly API
 type OperatorFXRate struct {
@@ -235,7 +260,7 @@ func (c *Client) GetOperatorsById(operatorID int, options ...OperatorOptions)(*O
 	method := "GET"
 	client := c.HttpClient
 	query := fmt.Sprintf("?suggestedAmounts=%t&suggestedAmountsMap=%t", o.SuggestedAmounts,o.SuggestedAmountsMap)
-	requestUrl := c.BaseURL + "/operators" + strconv.Itoa(operatorID) + query
+	requestUrl := c.BaseURL + "/operators/" + strconv.Itoa(operatorID) + query
 	req, _ := http.NewRequest(method, requestUrl, nil)
 
 	req.Header.Add("Authorization", c.AuthHeader)

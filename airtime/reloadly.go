@@ -3,10 +3,11 @@ package airtime
 import (
 	"encoding/base64"
 	"encoding/json"
-	"github.com/reloadly/reloadly-sdk-golang/authentication"
-	error2 "github.com/reloadly/reloadly-sdk-golang/error"
 	"net/http"
 	"strconv"
+
+	"github.com/reloadly/reloadly-sdk-golang/authentication"
+	error2 "github.com/reloadly/reloadly-sdk-golang/error"
 )
 
 var (
@@ -143,9 +144,9 @@ func FilterByPage(page int) Filters {
 	}
 }
 
-func FilterBySize(page int) Filters {
+func FilterBySize(size int) Filters {
 	return func(s *FilterOptions) {
-		s.Page = strconv.Itoa(page)
+		s.Size = strconv.Itoa(size)
 	}
 }
 
