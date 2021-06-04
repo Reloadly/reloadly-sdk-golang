@@ -16,13 +16,14 @@ var (
 	client *authentication.AuthClient
 )
 
+
 func setup() func() {
 	mux = http.NewServeMux()
 	server = httptest.NewServer(mux)
 
 	client = &authentication.AuthClient{
 		HttpClient: server.Client(),
-		URL:        server.URL,
+		URL: server.URL,
 	}
 
 	return func() {
@@ -71,25 +72,6 @@ func TestNewAuthClient(t *testing.T) {
 	}
 }
 
-func TestAuthClient_GetAccessToken(t *testing.T) {
-	teardown := setup()
-
-	defer teardown()
-
-	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
-		rw.WriteHeader(http.StatusInternalServerError)
-	})
-
-	body, err := client.GetAccessToken()
-
-	if err == nil {
-		t.Errorf("Expected error but got nil")
-	}
-
-	if body != nil {
-		t.Errorf("Expected body to be nil but got %v", body)
-	}
-}
 
 func TestAuthClient_ConfigureHTTP(t *testing.T) {
 	type fields struct {
@@ -120,5 +102,26 @@ func TestAuthClient_ConfigureHTTP(t *testing.T) {
 			}
 			a.ConfigureHTTP(tt.args.h)
 		})
+	}
+}
+
+
+func TestAuthClient_GetAccessToken(t *testing.T) {
+	teardown := setup()
+
+	defer teardown()
+
+	mux.HandleFunc("/", func(rw http.ResponseWriter, req *http.Request) {
+		rw.WriteHeader(http.StatusInternalServerError)
+	})
+
+	body, err := client.GetAccessToken()
+
+	if err == nil {
+		t.Errorf("Expected error but got nil")
+	}
+
+	if body != nil {
+		t.Errorf("Expected body to be nil but got %v",  body)
 	}
 }

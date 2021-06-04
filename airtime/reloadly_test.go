@@ -1,7 +1,6 @@
 package airtime_test
 
 import (
-	"net/http"
 	"reflect"
 	"strconv"
 	"testing"
@@ -25,11 +24,11 @@ func TestNewClient(t *testing.T) {
 		{
 			name: "client",
 			args: args{
-				clientId:     "Nfgh-1234",
+				clientId: "Nfgh-1234",
 				clientSecret: "xyz-090",
-				sandbox:      true,
+				sandbox: true,
 			},
-			want:    nil,
+			want: nil,
 			wantErr: true,
 		},
 		// TODO: Add test cases.
@@ -49,12 +48,13 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestFilterByPage(t *testing.T) {
-	cases := []struct {
-		page         int
+
+	cases := [] struct{
+		page int
 		ExpectedPage int
 	}{
 		{
-			page:         7,
+			page: 7,
 			ExpectedPage: 7,
 		},
 	}
@@ -63,24 +63,22 @@ func TestFilterByPage(t *testing.T) {
 		res := reloadly.FilterByPage(c.page)
 		o := &reloadly.FilterOptions{}
 		res(o)
-
-		if res != nil {
-			if strconv.Itoa(c.ExpectedPage) != o.Page {
+		if res != nil{
+			if strconv.Itoa(c.ExpectedPage) != o.Page{
 				t.Fatalf("Expected Filter Page to be %s but got %s", strconv.Itoa(c.page), o.Page)
 			}
 
 		}
-
 	}
 }
 
 func TestFilterBySize(t *testing.T) {
-	cases := []struct {
-		Size         int
+	cases := [] struct{
+		Size int
 		ExpectedSize int
 	}{
 		{
-			Size:         7,
+			Size: 7,
 			ExpectedSize: 7,
 		},
 	}
@@ -90,13 +88,12 @@ func TestFilterBySize(t *testing.T) {
 		o := &reloadly.FilterOptions{}
 		res(o)
 
-		if res != nil {
-			if strconv.Itoa(c.ExpectedSize) != o.Size {
+		if res != nil{
+			if strconv.Itoa(c.ExpectedSize) != o.Size{
 				t.Fatalf("Expected Filter Page to be %s but got %s", strconv.Itoa(c.Size), o.Size)
 			}
 
 		}
-
 	}
 }
 
@@ -139,3 +136,7 @@ func TestClient_ConfigureHTTP(t *testing.T) {
 		})
 	}
 }
+
+	}
+}
+
