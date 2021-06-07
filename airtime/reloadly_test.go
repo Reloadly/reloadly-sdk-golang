@@ -48,6 +48,7 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestFilterByPage(t *testing.T) {
+
 	cases := [] struct{
 		page int
 		ExpectedPage int
@@ -58,21 +59,16 @@ func TestFilterByPage(t *testing.T) {
 		},
 	}
 
-
-
 	for _, c := range cases {
 		res := reloadly.FilterByPage(c.page)
 		o := &reloadly.FilterOptions{}
 		res(o)
-
 		if res != nil{
 			if strconv.Itoa(c.ExpectedPage) != o.Page{
 				t.Fatalf("Expected Filter Page to be %s but got %s", strconv.Itoa(c.page), o.Page)
 			}
 
 		}
-
-
 	}
 }
 
@@ -87,13 +83,10 @@ func TestFilterBySize(t *testing.T) {
 		},
 	}
 
-
-
 	for _, c := range cases {
 		res := reloadly.FilterBySize(c.Size)
 		o := &reloadly.FilterOptions{}
 		res(o)
-
 
 		if res != nil{
 			if strconv.Itoa(c.ExpectedSize) != o.Size{
@@ -101,7 +94,48 @@ func TestFilterBySize(t *testing.T) {
 			}
 
 		}
+	}
+}
 
+
+func TestClient_ConfigureHTTP(t *testing.T) {
+	type fields struct {
+		HttpClient      reloadly.HTTPClient
+	}
+
+	type args struct {
+		h *http.Client
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *reloadly.Client
+	}{
+		{
+			name: "Configure HTTP Client",
+			fields: fields{
+				http.DefaultClient,
+			},
+			args: args{
+				http.DefaultClient,
+			},
+			want: &reloadly.Client{
+				HttpClient: http.DefaultClient,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &reloadly.Client{
+				HttpClient:      tt.fields.HttpClient,
+			}
+			if got := c.ConfigureHTTP(tt.args.h); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Client.ConfigureHTTP() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 
 	}
 }
