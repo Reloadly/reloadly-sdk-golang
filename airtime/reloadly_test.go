@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"strconv"
 	"testing"
+	"net/http"
 
 	reloadly "github.com/reloadly/reloadly-sdk-golang/airtime"
 )
@@ -137,6 +138,5 @@ func TestClient_ConfigureHTTP(t *testing.T) {
 	}
 }
 
-	}
-}
+
 
