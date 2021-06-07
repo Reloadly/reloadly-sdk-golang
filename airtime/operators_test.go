@@ -309,3 +309,65 @@ func TestAddPin(t *testing.T) {
 
 	}
 }
+
+func TestAddSuggestedAmountsMap(t *testing.T) {
+	cases := [] struct{
+		SuggestedAmountsMap bool
+		ExpectedSuggestedAmountsMap bool
+	}{
+		{
+			SuggestedAmountsMap: false,
+			ExpectedSuggestedAmountsMap: false,
+		},
+	}
+
+
+
+	for _, c := range cases {
+		res := reloadly.AddSuggestedAmountsMap(c.SuggestedAmountsMap)
+		o := &reloadly.OperatorOpts{}
+		res(o)
+
+		if res != nil{
+			if c.SuggestedAmountsMap != o.SuggestedAmountsMap {
+				t.Fatalf("Expected Suggested Amounts Map Option to be %t but got %t", c.SuggestedAmountsMap, o.SuggestedAmountsMap)
+			}
+
+		}
+
+
+	}
+}
+
+func TestAddSimplified(t *testing.T) {
+	cases := [] struct{
+		AddSimplified bool
+		ExpectedAddSimplified bool
+	}{
+		{
+			AddSimplified: false,
+			ExpectedAddSimplified: false,
+		},
+	}
+
+
+
+	for _, c := range cases {
+		res := reloadly.AddSimplified(c.AddSimplified)
+		o := &reloadly.OperatorOpts{}
+		res(o)
+
+		if res != nil{
+			if c.ExpectedAddSimplified != o.Simplified {
+				t.Fatalf("Expected Simplified Option to be %t but got %t", c.AddSimplified, o.Simplified)
+			}
+
+		}
+
+
+	}
+}
+
+
+
+
